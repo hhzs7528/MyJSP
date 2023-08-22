@@ -1,0 +1,5 @@
+# 项目排除路径
+/newManger/target/
+/newsManagerV2/target/
+/newsManagerV3/target/
+/Test1/target/

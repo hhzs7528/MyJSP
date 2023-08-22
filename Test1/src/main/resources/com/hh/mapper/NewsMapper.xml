@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hh.mapper.NewsMapper">
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"
+    />
+
+
+    <select id="getNews" resultMap="newsInfo">
+        select ni.id as niId, ni.newsTitle, ni.newsTime, ni.newsContent,nt.id as ntId,nt.newsType as ntNewsType  from newsinfo ni,newstype nt
+        where ni.newsType = nt.id
+    </select>
+    <resultMap id="newsInfo" type="NewsInfo">
+        <id column="niId" property="id"/>
+        <result column="newsTitle" property="newsTitle"/>
+        <result column="newsTime" property="newsTime"/>
+        <result column="newsContent" property="newsContent"/>
+        <association property="newsType" javaType="NewsType">
+            <id column="ntId" property="id"/>
+            <result column="ntNewsType" property="newsType"/>
+        </association>
+    </resultMap>
+
+
+    <select id="getNewsByTypes" resultMap="newsInfoByNewsType">
+        select newsinfo.id as niId, newsinfo.newsTitle, newsinfo.newsTime, newsinfo.newsContent, newstype.id as ntId, newstype.newsType
+        from newsinfo,newstype
+        where newsinfo.newsType = newstype.id
+          and newstype.id = #{id};
+
+    </select>
+    <resultMap id="newsInfoByNewsType" type="newsType" >
+        <id column="ntId" property="id"/>
+        <result column="newsType" property="newsType"/>
+        <collection property="newsInfoList" ofType="newsInfo">
+            <id column="niId" property="id"/>
+            <result column="newsTitle" property="newsTitle"/>
+            <result column="newsTime" property="newsTime"/>
+            <result column="newsContent" property="newsContent"/>
+        </collection>
+    </resultMap>
+
+
+</mapper>

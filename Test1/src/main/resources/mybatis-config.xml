@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <properties resource="jdbc.properties"/>
+    <settings>
+        <setting name="logImpl" value="log4j"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <!--如果类比较多，可以指定包，通过扫包的方式给包中的所有类起别名-->
+        <package name="com.hh.entity"/>
+    </typeAliases>
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--<package name="com.hh.mapper"/>-->
+        <!--<mapper resource="mapper/NewsMapper.xml"/>-->
+        <package name="com.hh.mapper"/>
+    </mappers>
+
+</configuration>
